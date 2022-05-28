@@ -1,3 +1,10 @@
+#macOS
+.DS_Store
+
+# Personal folder
+personal
+*/*personal
+
 # History files
 .Rhistory
 .Rapp.history
