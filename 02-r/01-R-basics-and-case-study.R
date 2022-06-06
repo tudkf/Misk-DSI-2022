@@ -12,7 +12,7 @@ library(tidyverse)
 
 # Basic R syntax ----
 # What does this command do?
-n <- log2(8)
+n <- log2(8) # 2^n = 8
 
 # Exercise 1 ----
 # Can you identify all the parts of the above commands?
@@ -20,11 +20,14 @@ n <- log2(8)
 # Exercise 2 ----
 # Incomplete commands :/
 # What happens if you execute this command?
-# n <- log2(8
+# n <- log2(8)
 
 # Plant Growth Case Study ----
 
 # A built-in data set ----
+read.csv("00-data/plantgrowth.csv")
+read_csv("00-data/plantgrowth.csv")
+
 PlantGrowth # already available in base R
 data(PlantGrowth) # This will make it appear in your environment
 
@@ -38,39 +41,79 @@ PlantGrowth <- as_tibble(PlantGrowth) # convert this to a "tibble" (more on this
 
 # 1. Descriptive Statistics ----
 # The "global mean" of all the weight values
+# 3 things: func, dataframe, column
+mean(PlantGrowth$weight)
+# DO NOT do this:
+# attach(PlantGrowth)
+# weight
+# detach(PlantGrowth)
+# weight
 
-
-# Would this on the group column?
-
+# Would this work on the group column?
+mean(PlantGrowth$group)
 
 # Group-wise statistics
 # Here, using functions from dplyr, a part of the Tidyverse
 # Using Tidyverse notation:
-# %>% is the "the pipe operator"
+# %>% is the "the (forward) pipe operator"
 # Pronounce it as "... and then ..."
 # Type it using shift + ctrl + m
 
 # Use summarise() for aggregation functions
+PlantGrowth %>% 
+  group_by(group) %>% 
+  summarise(avg = mean(weight),
+            stdev = sd(weight),
+            min = min(weight),
+            max = max(weight))
+# to see a list of the dataframes
+  # group_split()
 
+# This is saying:
+summarise(group_by(PlantGrowth, group), avg = mean(weight), stdev = sd(weight))
 
+PlantGrowth %>% 
+  group_by(group)
 
+# We DON'T need to write the full path to a variable
+# e.g. PlantGrowth$weight:
+PlantGrowth %>% 
+  group_by(group) %>% 
+  summarise(avg = mean(PlantGrowth$weight),
+            stdev = sd(weight))
 
 
 # Or... an atypical example, but it can still be useful:
+# The apply family of functions
+lapply(PlantGrowth, mean)
+# How to do the grouping with the apply functions.
 
-
-
+# What about using mutate() with an aggregration function?
+PlantGrowth %>% 
+  group_by(group) %>% 
+  mutate(avg = mean(weight))
 
 # For transformation functions: e.g. z-score within each group
-# (x_i - x_bar)/x_sd
+# (x_i - x_bar)/x_sd (Signal-to-noise)
 # function: scale()
 # typical use mutate()
+PlantGrowth %>% 
+  group_by(group) %>% 
+  mutate(Z_score = scale(weight),
+         x10 = weight * 10)
 
+# But this will still work even though summarise is 
+# supposed to be used for aggregration functions.
+PlantGrowth %>% 
+  group_by(group) %>% 
+  summarise(Z_score = scale(weight))
 
-
-# or...
-
-
+# or... transform all of the values in a column
+# e.g. multiply by 10 
+# (no grouping)
+# Base R way:
+# PlantGrowth$weight <- PlantGrowth$weight * 10
+scale(PlantGrowth$weight)
 
 
 
@@ -88,31 +131,63 @@ PlantGrowth$weight %>%
 # %>% says take the object on the left (i.e. a dataframe) and insert it
 # into the first position of the function on the right
 
-
 # 2. Data Visualization ----
 # Here, using functions from ggplot2, a part of the Tidyverse
 # 3 essential components
 # 1 - The data
-# 2 - Aesthetics - "mapping" variables onto scales
+# 2 - Aesthetics - "mapping" variables onto scales 
 # scales: x, y, color, size, shape, linetype
+# in the aes()
 # 3 - Geometry - how the plot will look
 
-# box plot
+# box plot -  display distribution in the form of quartiles
+ggplot(PlantGrowth, aes(group, weight)) +
+  geom_boxplot()
+ 
+# Assign some (1 or more) layers to an object when
+# you need to reuse it:
+p <- ggplot(PlantGrowth, aes(group, weight))
+
+p
+
+p +
+  geom_boxplot()
+# Dots: "outliers"
+# bottom dot or line to the top dot or line: Range
+# median, Q2: Horizontal line
+# middle 50%, split at (Q2 & Q3): Box lower and upper half
+# lower and upper 25% of the data (Q1, 4Q): Whiskers, lower and upper
+# Lines are drawn up to the closest point inside Q3+1.5*IQR
+# IQR = Interquartile Range (Q3 - Q1)
+
+# Contrasts to Range (Q4-Q0, max - min)
 
 # "dot plot" (mean +/- 1SD)
+p +
+  geom_jitter(width = 0.2, shape = 16, alpha = 0.75) +
+  stat_summary(fun.data = mean_sdl, fun.args = list(mult = 1), col = "red")
 
+# What if I didn't use jittering:
+p + 
+  geom_point()
 
-
+# We can combine layers in many ways:
+p +
+  geom_boxplot() +
+  geom_jitter(width = 0.2, shape = 16, alpha = 0.75, color = "pink")
 
 # 3. Inferential Statistics ----
 # first step: define a linear model
 # ~ means "described by"
+Plant.lm <- lm(weight ~ group, data = PlantGrowth)
 
-
-
-
+# It's not necessary, but we could have used 
+# "tidyverse" notation if we wanted to:
+PlantGrowth %>% 
+  lm(weight ~ group, data = .)
 
 # 1-way ANOVA
+Plant.anova <- anova(Plant.lm)
 
 
 
