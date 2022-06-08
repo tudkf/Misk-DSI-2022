@@ -224,15 +224,16 @@ mean(test, na.rm = TRUE)
 
 # Lists - 1-dimensional, heterogeneous ----
 library(tidyverse)
-martian_tb <- read_tsv("data/martians.txt")
+# martian_tb <- read_tsv("data/martians.txt")
 plant_lm <- lm(weight ~ group, data = PlantGrowth)
 plant_anova <- anova(plant_lm)
 typeof(plant_lm)
 
 # how many elements:
 length(plant_lm)
-length(foo1) # also works for vectors
-data("PlantGrowth")
+length(foo2) # also works for vectors
+
+# data("PlantGrowth")
 
 # attributes (meta data)
 attributes(plant_lm)
@@ -304,7 +305,8 @@ tibble("apple" = 54,
 # data frame (well, a tibble), but it's not necessary.
 foo_df <- tibble(foo4, foo3, foo2)
 foo_df
-
+typeof(foo_df)
+class(foo_df)
 # To modify the column names, what you're actually doing is
 # Change an attribute (think metadata). The most common attributes
 # can be accessed with accessor functions, in this case names()
@@ -312,28 +314,27 @@ names(foo_df) <- myNames
 foo_df
 
 # How can you call each variable (i.e. column) by name:
-
+foo_df$quantity
 
 
 # Basic functions:
 # Display the structure of foo_df using a base R function:
-
+str(foo_df)
 # Now using a tidyverse function:
-
+glimpse(foo_df)
 
 # Can you get a short summary of every variable with one command?
-
+summary(foo_df)
 
 # Can you print out the number of rows & columns?
-
+dim(foo_df) # 6 3
+length(foo_df) # 3 (list of 3 elements)
 
 # How about just the number of rows?
-
-
-
+nrow(foo_df) # 6
 
 # How about just the number of columns? 
-
+ncol(foo_df) # 3
 
 
 library(RColorBrewer)
