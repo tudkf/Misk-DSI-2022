@@ -31,22 +31,24 @@ n + p
 
 # i.e. Can you tell the difference in these function calls?
 # Which ones work and which one will produce an error?
-log(x = 8, base = 2)
-log(8, 2)
-log(8, base = 10/5)
+log(x = 8, base = 2) # long form, named
+log(8, 2) # long form, position
+log(8, base = 10/5) # long form, combo
+log(base = 2, 8) # bad style
+log(8, b = 2) # long form, combo using partial naming
 log2(8)
-log10(10000)
-log(base = 2, 8)
+log10(10000) # 4
 
 # 3 - Functions can have 0 to many un-named args
 # Can you think of an example?
-
 c()
+list()
 library(tidyverse)
-list.files()
+list.files(recursive = TRUE, pattern = ".csv")
+list.files() # ls in the command line
 Sys.time()
 getwd()
-
+R.Version()
 
 # 4 - Args can be named or un-named
 
@@ -62,6 +64,9 @@ myNames
 # As an aside: recall, everything is a function...
 # How is + a function?
 p + n
+# 1,+,3
+# +,1,3
+# 3,1,+
 # this is actually...
 `+`(p, n)
 
@@ -76,10 +81,23 @@ foo1 <- seq(1, 100, 7)
 
 # We can use objects in functions:
 foo2 <- seq(1, n, p)
+seq(0, 30, 6)
+
+# get the numbers 1 to 30
+seq(1, 30, 1)
+1:30
+# group them into 5 groups (1-6, 7-12, ... 25-30)
+cut(seq(1, 30, 1), 5) # 5 groups after ordering
+cut(seq(1, 30, 1), c(0,10, 20,30))
+# name them A-F
+
+table(cut(PlantGrowth$weight, c(0,5,10), c("low", "high")))
+
+
 
 # The colon operator ----
-# regular sequence of 1 interval
-
+# regular sequence of 1 interval from p to n 
+seq(p, n, 1)
 # Use the colon operator instead:
 
 
@@ -113,12 +131,19 @@ sum(c(3,7,1))
 
 # Exercise: Are these transformation or aggregation?
 # Don't execute the commands, try to guess what the output will be!
-foo2 + 100 # 
-foo2 + foo2 # 
-sum(foo2) + foo2 # 
-1:3 + foo2 # 
+foo2 + 100 # trans
+foo2 + foo2 # trans
+sum(foo2) + foo2 # 96 + foo2 ... agg plus trans
+1:3 + foo2 # trans
+
+paste(1+2, 1:3, sep = "+")
+paste(3, c(1,2,3), sep = "+")
+sum(foo2) + foo2
+(1+2) + 1:3
 
 # FUNDAMENTAL CONCEPT: VECTOR RECYCLING ----
+1:4 + foo2
+
 
 
 # Now we're starting to see different kinds of feedback from R
@@ -152,11 +177,11 @@ myNames
 # What do you the 4 most common ones are used to represent? 
 # Logical - TRUE/FALSE, T/F, 1/0 (Boolean)
 # Integer - whole numbers
-# Double - real numbers (float)
+# Double - real numbers (float) (<dbl> in tidy)
 # Character - All values (string)
 
 # Numeric - Generic class refer to int or dbl
-
+"hello" + "world"
 # check
 typeof(foo1)
 typeof(myNames)
@@ -170,6 +195,7 @@ foo4 <- c(TRUE, FALSE, FALSE, TRUE, TRUE, FALSE)
 typeof(foo4)
 
 # Homogeneous types:
+typeof(1:10)
 test <- c(1:10, "bob")
 test
 typeof(test)
