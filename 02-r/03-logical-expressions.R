@@ -1,13 +1,15 @@
 # Logical expressions
 # Misk Academy Data Science Immersive
 
+# As an aside: Regular expressions
+
 # Logical expressions are how we
 # Ask and combine TRUE/FALSE questions
 
 # Asking questions ----
 # There a 6 Relational Operators
 # Can you list them?
-#>, <, >=, <=, ==, !=
+# >, <, >=, <=, ==, !=
 
 # Plus we have a special case in R:
 # !x, where x is a logical vector, give the negation of x
@@ -25,10 +27,29 @@
 ## Number one thing to remember:
 ## You will ALWAYS get a logical vector whenever you see a relational or logical operator
 
+# The "forward" pipe operator, %>% (puncutation), puts the dataframe outcome of the 
+# LHS into argument position 1 of the function on the RHS
+# e.g. RHS functions from {dplyr} "The grammar of data analysis"
+# group_by() to change attributes for downstream functions - adjective
+# summarise() to add columns containing aggregation functions - verb
+# mutate() to add or modify columns using transformation functions - verb
+# filter() to return only TRUE rows from a logical vector
+#.         (i.e. typically from a logical expression)
+
 # Examples with foo_df: Logical data ----
 # All healthy observations
 foo_df %>% 
   filter(healthy)
+
+# An easy mistake to make, use = instead of ==
+foo_df %>% 
+  filter(healthy = TRUE)
+
+# Don't get creative here
+foo_df %>% 
+  filter(healthy != FALSE)
+
+
 # Filter requires a logical vector as long as the nrow of the DF
 # Returns only the TRUE rows.
 
@@ -40,7 +61,18 @@ foo_df %>%
   filter(healthy != TRUE)
 
 foo_df %>% 
+  filter(!(healthy == TRUE))
+
+foo_df %>% 
   filter(!healthy)
+
+# Using the negation operator ! "bang":
+# Can be useful when it's easier to ask for ...
+diamonds
+summary(diamonds)
+# ... all diamonds with color D, E, F, G, H
+# filter for color I or J and take the negation
+
 
 # Examples with foo_df: Numeric data
 # Below quantity 10
