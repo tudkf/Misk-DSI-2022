@@ -62,10 +62,14 @@ mean(PlantGrowth$group)
 # Use summarise() for aggregation functions
 PlantGrowth %>% 
   group_by(group) %>% 
-  summarise(avg = mean(weight),
+  summarise(avg = mean(PlantGrowth$weight),
             stdev = sd(weight),
             min = min(weight),
-            max = max(weight))
+            max = max(weight),
+            range = diff(range(weight)))
+# range: max - min
+# diff(range(1:10))
+# diff(c(5, 20))
 # to see a list of the dataframes
   # group_split()
 
@@ -79,7 +83,8 @@ PlantGrowth %>%
 # e.g. PlantGrowth$weight:
 PlantGrowth %>% 
   group_by(group) %>% 
-  summarise(avg = mean(PlantGrowth$weight),
+  summarise(avg = mean(weight),
+            # avg = mean(PlantGrowth$weight), # This takes the global mean
             stdev = sd(weight))
 
 
@@ -99,11 +104,15 @@ PlantGrowth %>%
 # typical use mutate()
 PlantGrowth %>% 
   group_by(group) %>% 
+  # group_split()
   mutate(Z_score = scale(weight),
-         x10 = weight * 10)
+         # avg = mean(weight),                          # We can use an aggregation function
+         Z_score_dollar = scale(PlantGrowth$weight),  # But not a transformation that is longer than what is expected
+         x10 = weight * 10) %>%
+  slice(1:3)
 
 # But this will still work even though summarise is 
-# supposed to be used for aggregration functions.
+# supposed to be used for aggregation functions.
 PlantGrowth %>% 
   group_by(group) %>% 
   summarise(Z_score = scale(weight))

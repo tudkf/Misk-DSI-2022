@@ -34,7 +34,7 @@
 # summarise() to add columns containing aggregation functions - verb
 # mutate() to add or modify columns using transformation functions - verb
 # filter() to return only TRUE rows from a logical vector
-#.         (i.e. typically from a logical expression)
+#          (i.e. typically from a logical expression)
 
 # Examples with foo_df: Logical data ----
 # All healthy observations
@@ -48,7 +48,6 @@ foo_df %>%
 # Don't get creative here
 foo_df %>% 
   filter(healthy != FALSE)
-
 
 # Filter requires a logical vector as long as the nrow of the DF
 # Returns only the TRUE rows.
@@ -78,7 +77,34 @@ summary(diamonds)
 # Below quantity 10
 glimpse(foo_df)
 foo_df %>% 
-  filter(quantity < 10)
+  filter(foo_df$quantity < 10)
+
+# example of an object in the env and in an dataframe:
+weight <- rnorm(30)
+
+PlantGrowth %>% 
+  filter(weight < 5)
+
+
+PlantGrowth %>% 
+  # group_by(group) %>% # In this case the group_by() is meaningless
+  filter(weight < 5, weight > 4)
+# All the weights between 4 and 5: 4 < weight < 5
+
+PlantGrowth %>% 
+  group_by(group) %>% # In this case we get a size error
+  filter(PlantGrowth$weight < 5)
+
+PlantGrowth %>% 
+  group_by(group) %>% 
+  filter(PlantGrowth$weight < 5 & PlantGrowth$weight > 4)
+
+# These don't work, because no dataframe is specified.
+filter(PlantGrowth$weight < 0)
+filter(weight < 0)
+
+# Another example of a TypeError:
+# mean("A") # Type error (chr when numeric or logical needed)
 
 # What really happened
 # Calculate a logical vector using vector recycling:
@@ -98,7 +124,8 @@ foo_df$quantity > 20
 
 # Impossible
 foo_df %>% 
-  filter(quantity < 10 | quantity > 20)
+  filter(quantity < 10 & quantity > 20)
+
 
 
 # Middle (between 10 and 20)
@@ -137,11 +164,56 @@ sum(foo_df$quantity < 16)
 
 foo_df %>% 
   filter(quantity < 16) %>% 
-  count()
+  count() # give the correct answer, for the wrong question
 
 foo_df %>% 
   filter(quantity < 16) %>% 
   nrow()
+
+# How many observations in each of the 
+# 3 groups (ctrl, trt1, trt2) have weight less than 5
+# This is one solution, it's ok, but don't copy/paste if you can
+# come up with a less error-prone solution
+PlantGrowth %>% 
+  group_by(group) %>% 
+  filter(weight < 5) %>% 
+  nrow()
+
+PlantGrowth %>% 
+  group_by(group) %>% 
+  filter(weight < 5, group == "ctrl") %>% 
+  nrow()
+
+PlantGrowth %>% 
+  group_by(group) %>% 
+  filter(weight < 5, group == "trt1") %>% 
+  nrow()
+
+PlantGrowth %>% 
+  group_by(group) %>% 
+  filter(weight < 5, group == "trt2") %>% 
+  nrow()
+
+# How about using summarise()
+# This is the most elegant solution
+PlantGrowth %>% 
+  group_by(group) %>%     # split
+  filter(weight < 5) %>%  # apply (some kind of work)
+  summarise(n_row = n())  # combine (into a dataframe)
+
+# A more generic solution: map()
+map()
+
+PlantGrowth %>% 
+  group_split(group) %>% 
+  map(.f = ~ nrow(.)) 
+
+
+# %>% 
+#   filter(weight < 5) %>% 
+#   summarise(n_row = n())
+
+
 
 # Examples with foo_df: Character data
 # NO PATTERN MATCHING so we have to use exact matches
