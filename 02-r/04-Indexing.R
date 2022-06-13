@@ -207,3 +207,12 @@ foo_df[1:3, names(foo_df) == "tissue"]
 foo_df %>% 
   slice(1:3) %>% 
   select(starts_with("t"))
+
+# What does distint() do?
+foo_df %>% 
+  distinct()
+
+distinct(PlantGrowth$weight)
+
+foo_df[c(1:6,2,3,2,4,2,5,2),] %>% 
+  distinct()

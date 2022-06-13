@@ -1,0 +1,62 @@
+---
+title: "Diamonds_exercises"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+
+```
+
+## The `diamonds` Dataset
+
+Exercise 9.1 (Examine structure)
+What type of data is contained in each column? Use some of the functions we introduced in the dataframes section to explore the basic structure of our new object.
+
+```{r}
+# Variable names
+names(diamonds)
+
+# A compact view
+glimpse(diamonds)
+
+# Summary statistics
+summary(diamonds)
+```
+
+Our data:
+
+```{r}
+diamonds
+```
+
+# Exercises I
+
+Exercise 9.2 (Counting individual groups)
+How many diamonds with a clarity of category "IF" are present in the data-set?
+
+```{r}
+sum(diamonds$clarity == "IF")
+
+diamonds %>% 
+  group_by(clarity) %>% 
+  count()
+
+table(diamonds$clarity)
+
+table(diamonds$clarity, diamonds$color)
+```
+
+
+Exercise 9.3 (Measuring proportions)
+What fraction of the total do they represent?
+Exercise 9.4 (Summarizing proportions)
+What proportion of the whole is made up of each category of clarity?
+Exercise 9.5 (Finding prices I)
+What is the cheapest diamond price overall?
+Exercise 9.6 (Finding prices I)
+What is the range of diamond prices?
+Exercise 9.7 (Finding prices II)
+What is the average diamond price in each category of cut and color?
