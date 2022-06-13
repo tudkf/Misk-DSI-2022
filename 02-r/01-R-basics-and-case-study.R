@@ -92,6 +92,13 @@ PlantGrowth %>%
 # The apply family of functions
 lapply(PlantGrowth, mean)
 # How to do the grouping with the apply functions.
+t_values <- tapply(PlantGrowth$weight, PlantGrowth$group, mean)
+typeof(t_values)
+attributes(t_values)
+dimnames(t_values)
+str(t_values)
+t_values$ctrl # can't call using $ syntax
+t_values[1]*1000
 
 # What about using mutate() with an aggregration function?
 PlantGrowth %>% 
