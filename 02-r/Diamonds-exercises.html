@@ -192,15 +192,14 @@ summary {
 </div>
 
 
-<div id="exercises" class="section level2">
-<h2>Exercises</h2>
-<p>Exercise 9.1 (Examine structure) What type of data is contained in each column? Use some of the functions we introduced in the dataframes section to explore the basic structure of our new object.</p>
-<pre class="r"><code># Variable names
-names(diamonds)</code></pre>
-<pre><code>##  [1] &quot;carat&quot;   &quot;cut&quot;     &quot;color&quot;   &quot;clarity&quot; &quot;depth&quot;   &quot;table&quot;   &quot;price&quot;  
-##  [8] &quot;x&quot;       &quot;y&quot;       &quot;z&quot;</code></pre>
-<pre class="r"><code># A compact view
-glimpse(diamonds)</code></pre>
+<div id="the-diamonds-dataset" class="section level2">
+<h2>The <code>diamonds</code> Dataset</h2>
+<p>Exercise 9.1 (Examine structure)</p>
+<ul>
+<li><p>What type of data is contained in each column?</p></li>
+<li><p>Use some of the functions we introduced in the dataframes section to explore the basic structure of our new object.</p></li>
+</ul>
+<p>The dataset contains the following variables:</p>
 <pre><code>## Rows: 53,940
 ## Columns: 10
 ## $ carat   &lt;dbl&gt; 0.23, 0.21, 0.23, 0.29, 0.31, 0.24, 0.24, 0.26, 0.22, 0.23,...
@@ -213,32 +212,6 @@ glimpse(diamonds)</code></pre>
 ## $ x       &lt;dbl&gt; 3.95, 3.89, 4.05, 4.20, 4.34, 3.94, 3.95, 4.07, 3.87, 4.00,...
 ## $ y       &lt;dbl&gt; 3.98, 3.84, 4.07, 4.23, 4.35, 3.96, 3.98, 4.11, 3.78, 4.05,...
 ## $ z       &lt;dbl&gt; 2.43, 2.31, 2.31, 2.63, 2.75, 2.48, 2.47, 2.53, 2.49, 2.39,...</code></pre>
-<pre class="r"><code># Summary statistics
-summary(diamonds)</code></pre>
-<pre><code>##      carat               cut        color        clarity          depth      
-##  Min.   :0.2000   Fair     : 1610   D: 6775   SI1    :13065   Min.   :43.00  
-##  1st Qu.:0.4000   Good     : 4906   E: 9797   VS2    :12258   1st Qu.:61.00  
-##  Median :0.7000   Very Good:12082   F: 9542   SI2    : 9194   Median :61.80  
-##  Mean   :0.7979   Premium  :13791   G:11292   VS1    : 8171   Mean   :61.75  
-##  3rd Qu.:1.0400   Ideal    :21551   H: 8304   VVS2   : 5066   3rd Qu.:62.50  
-##  Max.   :5.0100                     I: 5422   VVS1   : 3655   Max.   :79.00  
-##                                     J: 2808   (Other): 2531                  
-##      table           price             x                y         
-##  Min.   :43.00   Min.   :  326   Min.   : 0.000   Min.   : 0.000  
-##  1st Qu.:56.00   1st Qu.:  950   1st Qu.: 4.710   1st Qu.: 4.720  
-##  Median :57.00   Median : 2401   Median : 5.700   Median : 5.710  
-##  Mean   :57.46   Mean   : 3933   Mean   : 5.731   Mean   : 5.735  
-##  3rd Qu.:59.00   3rd Qu.: 5324   3rd Qu.: 6.540   3rd Qu.: 6.540  
-##  Max.   :95.00   Max.   :18823   Max.   :10.740   Max.   :58.900  
-##                                                                   
-##        z         
-##  Min.   : 0.000  
-##  1st Qu.: 2.910  
-##  Median : 3.530  
-##  Mean   : 3.539  
-##  3rd Qu.: 4.040  
-##  Max.   :31.800  
-## </code></pre>
 <p>Our data:</p>
 <pre class="r"><code>diamonds</code></pre>
 <pre><code>## # A tibble: 53,940 x 10
@@ -255,6 +228,176 @@ summary(diamonds)</code></pre>
 ##  9 0.22  Fair      E     VS2      65.1    61   337  3.87  3.78  2.49
 ## 10 0.23  Very Good H     VS1      59.4    61   338  4     4.05  2.39
 ## # ... with 53,930 more rows</code></pre>
+</div>
+<div id="exercise-9.2-counting-individual-groups" class="section level2">
+<h2>Exercise 9.2 (Counting individual groups)</h2>
+<p>How many diamonds with a clarity of category “IF” are present in the dataset?</p>
+<pre class="r"><code>(num_IF &lt;- sum(diamonds$clarity == &quot;IF&quot;))</code></pre>
+<pre><code>## [1] 1790</code></pre>
+<pre class="r"><code>diamonds %&gt;% 
+  group_by(clarity) %&gt;% 
+  count()</code></pre>
+<pre><code>## # A tibble: 8 x 2
+## # Groups:   clarity [8]
+##   clarity     n
+##   &lt;ord&gt;   &lt;int&gt;
+## 1 I1        741
+## 2 SI2      9194
+## 3 SI1     13065
+## 4 VS2     12258
+## 5 VS1      8171
+## 6 VVS2     5066
+## 7 VVS1     3655
+## 8 IF       1790</code></pre>
+<pre class="r"><code>table(diamonds$clarity)</code></pre>
+<pre><code>## 
+##    I1   SI2   SI1   VS2   VS1  VVS2  VVS1    IF 
+##   741  9194 13065 12258  8171  5066  3655  1790</code></pre>
+<pre class="r"><code>table(diamonds$clarity, diamonds$color)</code></pre>
+<pre><code>##       
+##           D    E    F    G    H    I    J
+##   I1     42  102  143  150  162   92   50
+##   SI2  1370 1713 1609 1548 1563  912  479
+##   SI1  2083 2426 2131 1976 2275 1424  750
+##   VS2  1697 2470 2201 2347 1643 1169  731
+##   VS1   705 1281 1364 2148 1169  962  542
+##   VVS2  553  991  975 1443  608  365  131
+##   VVS1  252  656  734  999  585  355   74
+##   IF     73  158  385  681  299  143   51</code></pre>
+<p>A: From a total of 53940 diamonds, there are 1790 IF clarity diamonds in our dataset.</p>
+</div>
+<div id="exercise-9.3-measuring-proportions" class="section level2">
+<h2>Exercise 9.3 (Measuring proportions)</h2>
+<ul>
+<li>What proportion (0-1) (or percentage (0-100)) of the total do they represent?</li>
+</ul>
+<pre class="r"><code>num_IF / nrow(diamonds) # proportion</code></pre>
+<pre><code>## [1] 0.03318502</code></pre>
+<pre class="r"><code>num_IF / nrow(diamonds) * 100 # percent</code></pre>
+<pre><code>## [1] 3.318502</code></pre>
+</div>
+<div id="exercise-9.4-summarizing-proportions" class="section level2">
+<h2>Exercise 9.4 (Summarizing proportions)</h2>
+<ul>
+<li>What proportion of the whole is made up of each category of clarity?</li>
+</ul>
+<table>
+<caption>The proportion of each type of clarity diamond.</caption>
+<thead>
+<tr class="header">
+<th align="left">clarity</th>
+<th align="right">n</th>
+<th align="right">prop</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">I1</td>
+<td align="right">741</td>
+<td align="right">0.0137375</td>
+</tr>
+<tr class="even">
+<td align="left">SI2</td>
+<td align="right">9194</td>
+<td align="right">0.1704486</td>
+</tr>
+<tr class="odd">
+<td align="left">SI1</td>
+<td align="right">13065</td>
+<td align="right">0.2422136</td>
+</tr>
+<tr class="even">
+<td align="left">VS2</td>
+<td align="right">12258</td>
+<td align="right">0.2272525</td>
+</tr>
+<tr class="odd">
+<td align="left">VS1</td>
+<td align="right">8171</td>
+<td align="right">0.1514831</td>
+</tr>
+<tr class="even">
+<td align="left">VVS2</td>
+<td align="right">5066</td>
+<td align="right">0.0939192</td>
+</tr>
+<tr class="odd">
+<td align="left">VVS1</td>
+<td align="right">3655</td>
+<td align="right">0.0677605</td>
+</tr>
+<tr class="even">
+<td align="left">IF</td>
+<td align="right">1790</td>
+<td align="right">0.0331850</td>
+</tr>
+</tbody>
+</table>
+<pre><code>## # A tibble: 8 x 2
+##   clarity      n
+## * &lt;ord&gt;    &lt;dbl&gt;
+## 1 I1      0.0137
+## 2 SI2     0.170 
+## 3 SI1     0.242 
+## 4 VS2     0.227 
+## 5 VS1     0.151 
+## 6 VVS2    0.0939
+## 7 VVS1    0.0678
+## 8 IF      0.0332</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;clarity&#39;. You can override using the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 56 x 3
+## # Groups:   clarity [8]
+##    clarity color     n
+##    &lt;ord&gt;   &lt;ord&gt; &lt;int&gt;
+##  1 I1      D        42
+##  2 I1      E       102
+##  3 I1      F       143
+##  4 I1      G       150
+##  5 I1      H       162
+##  6 I1      I        92
+##  7 I1      J        50
+##  8 SI2     D      1370
+##  9 SI2     E      1713
+## 10 SI2     F      1609
+## # ... with 46 more rows</code></pre>
+<pre><code>##       
+##           D    E    F    G    H    I    J
+##   I1     42  102  143  150  162   92   50
+##   SI2  1370 1713 1609 1548 1563  912  479
+##   SI1  2083 2426 2131 1976 2275 1424  750
+##   VS2  1697 2470 2201 2347 1643 1169  731
+##   VS1   705 1281 1364 2148 1169  962  542
+##   VVS2  553  991  975 1443  608  365  131
+##   VVS1  252  656  734  999  585  355   74
+##   IF     73  158  385  681  299  143   51</code></pre>
+<pre><code>## 
+##         I1        SI2        SI1        VS2        VS1       VVS2       VVS1 
+## 0.01373749 0.17044865 0.24221357 0.22725250 0.15148313 0.09391917 0.06776047 
+##         IF 
+## 0.03318502</code></pre>
+<pre><code>## 
+##         I1        SI2        SI1        VS2        VS1       VVS2       VVS1 
+## 0.01373749 0.17044865 0.24221357 0.22725250 0.15148313 0.09391917 0.06776047 
+##         IF 
+## 0.03318502</code></pre>
+</div>
+<div id="exercise-9.5-finding-prices-i" class="section level2">
+<h2>Exercise 9.5 (Finding prices I)</h2>
+<ul>
+<li>What is the cheapest diamond price overall?</li>
+</ul>
+</div>
+<div id="exercise-9.6-finding-prices-i" class="section level2">
+<h2>Exercise 9.6 (Finding prices I)</h2>
+<ul>
+<li>What is the range of diamond prices?</li>
+</ul>
+</div>
+<div id="exercise-9.7-finding-prices-ii" class="section level2">
+<h2>Exercise 9.7 (Finding prices II)</h2>
+<ul>
+<li>What is the average diamond price in each category of cut and color?</li>
+</ul>
 </div>
 
 

@@ -7,23 +7,27 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
-
 ```
 
 ## The `diamonds` Dataset
 
 Exercise 9.1 (Examine structure)
-What type of data is contained in each column? Use some of the functions we introduced in the dataframes section to explore the basic structure of our new object.
 
-```{r}
+- What type of data is contained in each column?
+
+- Use some of the functions we introduced in the dataframes section to explore the basic structure of our new object.
+
+The dataset contains the following variables:
+
+```{r ex9_1, echo=FALSE}
 # Variable names
-names(diamonds)
+# names(diamonds)
 
 # A compact view
 glimpse(diamonds)
 
 # Summary statistics
-summary(diamonds)
+# summary(diamonds)
 ```
 
 Our data:
@@ -32,13 +36,12 @@ Our data:
 diamonds
 ```
 
-# Exercises I
+## Exercise 9.2 (Counting individual groups)
 
-Exercise 9.2 (Counting individual groups)
-How many diamonds with a clarity of category "IF" are present in the data-set?
+How many diamonds with a clarity of category "IF" are present in the dataset?
 
 ```{r}
-sum(diamonds$clarity == "IF")
+(num_IF <- sum(diamonds$clarity == "IF"))
 
 diamonds %>% 
   group_by(clarity) %>% 
@@ -49,14 +52,79 @@ table(diamonds$clarity)
 table(diamonds$clarity, diamonds$color)
 ```
 
+A: From a total of `r nrow(diamonds)` diamonds, there are `r num_IF` IF clarity diamonds in our dataset.
 
-Exercise 9.3 (Measuring proportions)
-What fraction of the total do they represent?
-Exercise 9.4 (Summarizing proportions)
-What proportion of the whole is made up of each category of clarity?
-Exercise 9.5 (Finding prices I)
-What is the cheapest diamond price overall?
-Exercise 9.6 (Finding prices I)
-What is the range of diamond prices?
-Exercise 9.7 (Finding prices II)
-What is the average diamond price in each category of cut and color?
+## Exercise 9.3 (Measuring proportions)
+
+- What proportion (0-1) (or percentage (0-100)) of the total do they represent?
+
+```{r}
+num_IF / nrow(diamonds) # proportion
+
+num_IF / nrow(diamonds) * 100 # percent
+```
+
+## Exercise 9.4 (Summarizing proportions)
+
+- What proportion of the whole is made up of each category of clarity?
+
+```{r echo=FALSE}
+
+diamonds %>%
+  count(clarity) %>%
+  mutate(
+    # n_ = n(), # 8, n from input, not diamons
+    # n_row = nrow(diamonds),
+    prop = n/nrow(diamonds)) %>% 
+  knitr::kable(caption = "The proportion of each type of clarity diamond.")
+
+
+# Longer form:
+diamonds %>% 
+  group_by(clarity) %>% 
+  summarise(n = n()/nrow(diamonds)) 
+  
+# The intersection of two variables (as a data.frame)
+# with grouping by clarity
+diamonds %>% 
+  group_by(clarity, color) %>% 
+  summarise(n = n())
+
+# A contigency table (not a data.frame object)
+table(diamonds$clarity, diamonds$color)
+
+table(diamonds$clarity) / length(diamonds$clarity)
+table(diamonds$clarity) / nrow(diamonds)
+
+```
+
+## Exercise 9.5 (Finding prices I)
+
+- What is the cheapest diamond price overall?
+
+```{r}
+min(diamonds$price)
+```
+
+- What are the properties of the cheapest and the most expensive diamonds?
+
+```{r}
+
+```
+
+
+## Exercise 9.6 (Finding prices I)
+
+- What is the range of diamond prices?
+
+```{r}
+
+```
+
+## Exercise 9.7 (Finding prices II)
+
+- What is the average diamond price in each category of cut and color?
+
+```{r}
+
+```
