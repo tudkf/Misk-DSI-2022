@@ -112,10 +112,21 @@ min(diamonds$price)
 
 ```
 
-
 ## Exercise 9.6 (Finding prices I)
 
-- What is the range of diamond prices?
+- What is the range (single number, Q4-Q0) of diamond prices?
+
+```{r}
+
+```
+
+- The min & max, separately, for each category of cut and color? How would you summarize what the results? 
+
+```{r}
+
+```
+
+- Produce a plot from the previous exercise. Does this change how you would summarize the previous result?
 
 ```{r}
 
@@ -128,3 +139,43 @@ min(diamonds$price)
 ```{r}
 
 ```
+
+- Plot the raw values for each of the above groups _and_ the mean and standard deviation.
+
+```{r}
+
+```
+
+- Are boxplots useful when representing this data?
+
+```{r}
+
+```
+
+## Exercise 9.8 (Plotting)
+
+- Produce a plot that shows the relationship between the size of a diamond (as measured by carat) and the price. 
+
+```{r}
+
+```
+
+- Is a transformation of either axis in order? How would you apply it?
+
+```{r}
+
+```
+
+- How can we distinguish between different groups of categorical variables, such as cut, clarity or color? 
+
+```{r}
+
+```
+
+- How about other continuous variables? 
+
+```{r}
+
+```
+
+
