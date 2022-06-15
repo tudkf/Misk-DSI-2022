@@ -1,5 +1,5 @@
 ---
-title: "Diamonds_exercises"
+title: "Diamonds exercises"
 output: html_document
 ---
 
@@ -153,6 +153,8 @@ diamonds %>%
 - The min & max, separately, for each category of cut and color? How would you describe what the results show? (kind of difficult)
 
 ```{r}
+table(diamonds$cut, diamonds$color)
+
 # 4 variables: cut, color, min, max
 # dim: 35 x 4
 diamonds %>% 
@@ -198,10 +200,10 @@ posn_d <- position_dodge(width = 0.25)
 # But can also use position = "dodge"
 
 # Define the data and aesthetics  
-ggplot(dia_range_1_col, aes(cut, range, color = color)) +
-  geom_point(position = posn_d) +
+ggplot(dia_range_1_col, aes(cut, range, color = color)) + geom_point(position = posn_d) +
   # geom_path() +
   # geom_line() +
+  # scale_color_brewer() +
   NULL
 
 # try with 2 col, but we'd need two ploting functions:
@@ -272,5 +274,11 @@ ggplot(dia_range_1_col_ID, aes(cut, range, color = color)) +
 - How about other continuous variables? 
 
 ```{r}
-
+diamonds %>% 
+  group_by(cut, color) %>% 
+  summarise(min = min(price),
+            max = max(price)) %>% 
+  # data.frame() %>% 
+  
+  print()
 ```
