@@ -259,12 +259,13 @@ The p-value, 0.027, is the probability to observe what I observe, or something m
 
 This is basically a one-sample t-test:
 
-```{r}
+```{r eval = FALSE}
 # Load packages
 library(tidyverse)
 
 # Read in the data
-martian <- read_tsv("data/martian.txt")
+# martian <- read_tsv("data/martian.txt")
+martian <- read_tsv("./00-data/martians.txt")
 
 # Data
 martian_siteI <- martian$Height[martian$Site == "Site I"]

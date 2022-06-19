@@ -10,25 +10,25 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 
 # Read in the data
-martian <- read_tsv("data/martian.txt")
+martians <- read_tsv("./00-data/martians.txt")
 ```
 
 ## Descriptive statistics
 
 ```{r}
 # Data
-martian_siteI <- martian$Height[martian$Site == "Site I"]
+martian_siteI <- martians$Height[martians$Site == "Site I"]
 
-# n
+# n - 10
 n <- length(martian_siteI)
 
-# Mean
+# Mean - 200
 siteI_mean <- sum(martian_siteI)/n
 
-# Variance
+# Variance - 36
 siteI_var <- sum((martian_siteI - siteI_mean)^2)/(length(martian_siteI) - 1)
 
-# Standard deviation
+# Standard deviation - 6
 siteI_sd <- sqrt(siteI_var)
 
 ```
@@ -41,6 +41,7 @@ n
 ```{r}
 siteI_mean
 ```
+
 ```{r}
 siteI_sd
 ```
@@ -64,5 +65,12 @@ CI_upper <- siteI_mean + (1.96 * SEM)
 
 There is a 95% chance that interval [`r CI_lower`, `r CI_upper`] _covers_ the true population parameter $\mu$.
 
+
+```{r}
+# According to the CLT, 95% of x_bar will be found:
+H_0 <- 195
+CLT_lower <- H_0 - (1.96 * SEM)
+CLT_upper <- H_0 + (1.96 * SEM)
+```
 
 

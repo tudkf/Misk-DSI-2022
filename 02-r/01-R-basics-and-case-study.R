@@ -86,7 +86,7 @@ PlantGrowth %>%
   summarise(avg = mean(weight),
             # avg = mean(PlantGrowth$weight), # This takes the global mean
             stdev = sd(weight))
-
+# ..1, ..2
 
 # Or... an atypical example, but it can still be useful:
 # The apply family of functions
@@ -185,7 +185,7 @@ p +
 
 # What if I didn't use jittering:
 p + 
-  geom_point()
+  geom_point(hello = TRUE)
 
 # We can combine layers in many ways:
 p +
