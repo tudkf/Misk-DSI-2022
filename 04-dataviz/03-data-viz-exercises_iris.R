@@ -39,7 +39,8 @@ ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
 # How to jitter:
 # Most basic
 ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
-  geom_point(position = "jitter", shape = 16, alpha = 0.5)
+  geom_point(position = "jitter", shape = 16, alpha = 0.5) +
+  coord_fixed()
 
 # More flexible (can specify height and width)
 ggplot(iris, aes(Sepal.Length, Sepal.Width)) +
