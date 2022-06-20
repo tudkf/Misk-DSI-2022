@@ -30,7 +30,8 @@ ggplot(Vocab, aes(education, vocabulary)) +
 
 # Nicest version
 ggplot(Vocab, aes(education, vocabulary)) +
-  geom_jitter(alpha = 0.15, shape = 16) 
+  geom_jitter(alpha = 0.15, shape = 16) +
+  coord_fixed()
 # + 
 #   stat_summary(fun.data = mean_sdl, fun.args = list(mult = 1), color="red")
 
@@ -41,18 +42,35 @@ ggplot(Vocab, aes(education, vocabulary)) +
 
 
 
-# look at later:
-ggplot(Vocab, aes(x=year, y=vocabulary, color=year)) +
-  geom_jitter(shape=1) +
-  geom_smooth()
-
-# Not really answering the question
-Vocab %>% 
-  group_by(year) %>% 
-  summarise(voc_avg = mean(vocabulary)) %>% 
-  ggplot(aes(x=year,y=voc_avg ))+
-  geom_point()+
-  geom_smooth()
+# # look at later:
+# ggplot(Vocab, aes(x=year, y=vocabulary, color=year)) +
+#   geom_jitter(shape=1) +
+#   geom_smooth()
+# 
+# # Not really answering the question
+# Vocab %>% 
+#   group_by(year) %>% 
+#   summarise(voc_avg = mean(vocabulary)) %>% 
+#   ggplot(aes(x=year,y=voc_avg ))+
+#   geom_point()+
+#   geom_smooth()
 
 
 # Using facets and lm according to sex and year (the remaining two variables)
+
+Vocab %>% 
+  # filter(year %in% c(1974, 2016)) %>% 
+  ggplot(aes(education, vocabulary, color = factor(year))) +
+  stat_smooth(method = "lm", se = FALSE) +
+  facet_grid(. ~ sex)
+
+# gganimate
+library(gganimate)
+# An example, but needs to be improved
+anim <- Vocab %>% 
+  # filter(year %in% c(1974, 2016)) %>% 
+  ggplot(aes(education, vocabulary, color = factor(year))) +
+  stat_smooth(method = "lm", se = FALSE) +
+  facet_grid(. ~ sex) +
+  transition_reveal(year)
+anim
