@@ -20,3 +20,6 @@ ggplot(msleep_total, aes(vore, sleep_total)) +
 # too little control on jittering width
 ggplot(msleep_total, aes(vore, sleep_total)) +
   geom_point(position = "jitter", alpha = 0.5, shape = 16)
+
+
+# different geoms to visualize - boxplot, density, violin, mean + sd
