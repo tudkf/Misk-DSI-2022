@@ -24,11 +24,11 @@ from statsmodels.formula.api import ols
 #%%
 # Super basic function
 n =  math.log(8, 2)
-
+n
 
 #%%
 # Import the data set
-plant_growth = pd.read_csv('./data/plant_growth.csv')
+plant_growth = pd.read_csv('../00-data/plantgrowth.csv')
 
 #%%
 # Examine the data
