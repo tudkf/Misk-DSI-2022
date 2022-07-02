@@ -1,6 +1,9 @@
 #macOS
 .DS_Store
 
+# containers
+.devcontainer
+
 # Personal folder
 personal
 */*personal
