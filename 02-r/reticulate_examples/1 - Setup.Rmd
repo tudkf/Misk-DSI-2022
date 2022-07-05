@@ -27,7 +27,7 @@ Even if you have `anaconda` or `miniconda` installed locally, i.e. not in a Dock
 ```{r eval=FALSE}
 
 # Install miniconda with the default r-reticulate conda env
-install_miniconda()
+# install_miniconda()
 ```
 
 Check to see what virtual environments miniconda has available:
@@ -49,6 +49,13 @@ Check the default Python build
 
 ```{r eval=FALSE}
 
+# Alternatively, use virtualenv
+# virtualenv_create
+# use_virtualenv	
+
+# Specify env or version of pythonb to use with
+# use_python()
+
 # View the current python setup that reticulate will use
 py_config()
 ```
@@ -60,10 +67,10 @@ For our purposes you should need to have to make your own conda env. In my exper
 ```{r}
 
 # Create a new conda env
-conda_create("misk_dsi")
+# conda_create("misk_dsi")
 
 # See it in the list
-conda_list()
+# conda_list()
 ```
 
 ## 0.4: Populate the virtual environment
@@ -78,4 +85,8 @@ conda_install("r-reticulate", "scikit-learn")
 # Install multiple packages with purrr::map()
 c("scikit-learn", "pandas", "seaborn") %>%
   purrr::map(~ conda_install("r-reticulate", .))
+
+# Do the same but with 
+# virtualenv_install()
+# for virtualenv
 ```

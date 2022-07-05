@@ -4,7 +4,7 @@ author: "A bilingual case study"
 ---
 
 ```{r}
-# library(reticulate)
+library(reticulate)
 ```
 
 Check active build
@@ -22,12 +22,20 @@ _Create_ and _Display_ a **Python** object in **Python**:
 ```{python eval = TRUE}
 a = 3.14
 a
+
+import numpy as np
+rad = np.arange(0, 2, 0.01)
+rad
 ```
 
 _Retrieve_ and _Display_ a **Python** object in **R**:
 
 ```{r eval = TRUE}
 py$a
+```
+
+```{r}
+py$rad
 ```
 
 ### R -> Py 
