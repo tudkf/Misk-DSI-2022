@@ -1,10 +1,29 @@
-#%%
-import rpy2.robjects as robjects
-from rpy2.robjects.packages import importr
-from rpy2.robjects import pandas2ri
-from sklearn.datasets import load_boston
+# %%
+# Choose the miniconda base env and
+# Run in the terminal
+# conda install -y PyHamcrest
+# Linux:
+# sudo apt-get install -y libreadline6-dev
+# macOS:
+# conda update -c rdonnellyr -c main --all 
+# Install packate
+# pip install rpy2
+
+# %%
+# Import modules
 import pandas as pd
-#Must be activated
+from sklearn.datasets import load_boston
+
+# %%
+import rpy2.robjects as robjects
+
+# %%
+from rpy2.robjects.packages import importr
+
+# %%
+from rpy2.robjects import pandas2ri
+
+# Must be activated
 pandas2ri.activate()
 
 # %%
@@ -40,9 +59,9 @@ from rpy2.robjects.lib.dplyr import (filter,
 
 #%%
  dataf = (DataFrame(mtcars) >>
-             filter(rl('gear>3')) >>
+             filter(rl('gear > 3')) >>
              mutate(powertoweight=rl('hp*36/wt')) >>
              group_by(rl('gear')) >>
-             summarize(mean_ptw=rl('mean(powertoweight)')))
+             summarize(mean_ptw = rl('mean(powertoweight)')))
 
     dataf
